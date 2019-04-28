@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "usuba-good-by-heisei"
+    "default": "usuba-good-by-heisei",
+    "staging": "usuba-good-by-heisei-dev"
   }
 }

@@ -1,17 +1,12 @@
 <template>
   <div id="app">
-    <HelloReiwa />
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloReiwa from './components/HelloReiwa.vue'
-
 export default {
-  name: 'app',
-  components: {
-    HelloReiwa
-  }
+  name: 'app'
 }
 </script>
 

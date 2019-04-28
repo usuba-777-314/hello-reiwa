@@ -18,42 +18,8 @@
       </div>
 
       <div class="background">
-        <div class="contents">
-          <div class="message">
-            <p>これが</p>
-            <p>平成最後の…</p>
-          </div>
-
-          <img src="/image1.jpeg">
-
-          <div class="message">
-            <p>イラストは頂きものです</p>
-            <p>ありがとうございます</p>
-          </div>
-
-          <img src="/image2.jpeg">
-
-          <div class="message">
-            <p>Vue.jsで</p>
-            <p>大規模アプリケーション作れるの？</p>
-            <p>って聞かれたら、</p>
-            <p>「私がいれば大丈夫です」</p>
-            <p>って返しますね✌</p>
-          </div>
-
-          <img src="/image3.jpeg">
-
-          <div class="message">
-            <p v-for="(message, index) in messages" :key="index">{{message}}</p>
-            <p>令和で会いましょう</p>
-            <p>令和でもよろしくお願い申し上げます✌️</p>
-          </div>
-
-          <div class="message">
-            <p>（作るのに4時間かかった………）</p>
-            <p>（期待のハードルを超えられたかな………）</p>
-            <p>（令和でもがんばるぞい）</p>
-          </div>
+        <div class="contents" :style="`animation-duration: ${duration}s`">
+          <slot />
         </div>
       </div>
     </main>
@@ -77,37 +43,15 @@ export default {
     };
   },
 
+  props: {
+    dest: String,
+    sender: String,
+    duration: {
+      default: 120
+    }
+  },
+
   computed: {
-    search() {
-      const search = location.search;
-      if (search == null) return {};
-
-      return decodeURIComponent(search)
-        .slice(1)
-        .split("&")
-        .map(kv => {
-          const [ key, value ] = kv.split("=");
-          return { key, value };
-        })
-        .reduce((result, {key, value}) => {
-          result[key] = value;
-          return result;
-        }, {});
-    },
-
-    dest() {
-      return this.search.dest;
-    },
-
-    sender() {
-      return this.search.sender;
-    },
-
-    messages() {
-      if (this.search.messages == null) return [];
-      return this.search.messages.split(",");
-    },
-
     remainingTimeUntilReiwa() {
       const reiwa = new Date("2019/05/01 00:00:00+09:00");
       return reiwa.getTime() - this.now.getTime();
@@ -242,7 +186,6 @@ main .background .contents {
   height: 100%;
 
   display: flex;
-  animation-duration: 90s;
   animation-name: SLIDE;
   animation-iteration-count: infinite;
 }
@@ -262,10 +205,16 @@ main .background .contents {
 main .background .contents > * {
   height: 100%;
   box-sizing: border-box;
+  border-right: 1px solid rgba(200, 200, 200, 0.8);
 }
 
-main .background .contents .message {
+main .background .contents > *:last-child {
+  border: none;
+}
+
+main .background .contents >>> .message {
   width: 400px;
+  box-sizing: border-box;
   padding: 160px 0 160px;
 
   display: flex;
@@ -274,13 +223,13 @@ main .background .contents .message {
   align-items: center;
 }
 
-main .background .contents .message > * {
+main .background .contents >>> .message > * {
   padding: 8px 24px;
 }
 
 footer {
-  flex-basis: 40px;
-  height: 40px;
+  flex-basis: 80px;
+  height: 80px;
   box-sizing: border-box;
 
   width: 100%;
@@ -294,10 +243,10 @@ footer .sender {
   box-sizing: border-box;
 
   margin: 0 auto;
-  padding: 16px 12px 8px;
+  padding: 8px 12px 0;
 
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 12px;
+  line-height: 12px;
 
   text-align: right;
 }
