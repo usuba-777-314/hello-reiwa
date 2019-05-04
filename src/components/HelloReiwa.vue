@@ -1,7 +1,8 @@
 <template>
   <div class="hello-reiwa-host">
     <header>
-      <h1>さようなら、平成</h1>
+      <h1 v-if="remainingTimeUntilReiwa > 0">さようなら、平成</h1>
+      <h1 v-else>はじめまして、令和</h1>
     </header>
 
     <main>
@@ -11,9 +12,16 @@
           <p class="message">平成では誠にお世話になりました🙇</p>
         </div>
 
-        <div class="up-to-令和">
+        <div v-if="remainingTimeUntilReiwa > 0" class="up-to-令和">
           <div class="label">令和まで</div>
           <div class="remaining-time">{{remainingDates}}日{{remainingHours}}時間{{remainingMinutes}}分{{remainingSeconds}}秒!!</div>
+        </div>
+
+        <div v-else class="happy-令和">
+          <span>祝</span>
+          <span>令</span>
+          <span>和</span>
+          <span>！</span>
         </div>
       </div>
 
@@ -110,7 +118,7 @@ header h1 {
   margin: 0;
   padding: 0;
 
-  font-size: 36px;
+  font-size: 35px;
   line-height: 64px;
   text-align: center;
 }
@@ -142,7 +150,7 @@ main .message-area {
 main .good-by-平成 {
   margin: 8px 0;
   padding: 8px 24px;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 32px;
 
   background: white;
@@ -169,6 +177,24 @@ main .up-to-令和 .label {
 main .up-to-令和 .remaining-time {
   font-size: 24px;
   line-height: 24px;
+}
+
+main .happy-令和 {
+  width: 250px;
+  margin: 0 0 8px;
+  padding: 16px 21px;
+  background: aqua;
+  opacity: 0.8;
+  border-radius: 12px;
+  justify-items: start;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+main .happy-令和 * {
+  font-size: 48px;
+  font-weight: 600;
 }
 
 main .background {
